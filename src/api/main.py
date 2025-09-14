@@ -50,11 +50,11 @@ Be helpful and provide specific guidance about Omnizon's platform."""
 
 # Endpoints
 @app.get("/")
-async def root():
+def root():
     return {"message": "Welcome to Omnizon RAG API"}
 
 @app.post("/validate")
-async def validate_compliance(
+def validate_compliance(
     request: ValidationRequest,
     db: Session = Depends(get_db)
 ):
@@ -84,13 +84,13 @@ async def validate_compliance(
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.post("/chat")
-async def chat(
+def chat(
     message: ChatMessage,
     db: Session = Depends(get_db)
 ):
     try:
         # Get relevant context from documents
-        context = await retrieval_service.get_relevant_context(message.content)
+        context = retrieval_service.get_relevant_context(message.content)
         
         # Get response from OpenAI with context
         response = client.chat.completions.create(
@@ -122,20 +122,20 @@ async def chat(
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.get("/chat/history")
-async def get_chat_history(db: Session = Depends(get_db)):
+def get_chat_history(db: Session = Depends(get_db)):
     chats = db.query(ChatHistory).order_by(ChatHistory.created_at.desc()).all()
     return chats
 
 @app.get("/validate/history")
-async def get_validation_history(db: Session = Depends(get_db)):
+def get_validation_history(db: Session = Depends(get_db)):
     validations = db.query(ValidationHistory).order_by(ValidationHistory.created_at.desc()).all()
     return validations
 
 @app.post("/process-docs")
-async def process_documents():
+def process_documents():
     try:
         processor = DocumentProcessor()
-        texts = await processor.process_documents()
+        texts = processor.process_documents()
         return {"message": f"Processed {len(texts)} document chunks successfully"}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
