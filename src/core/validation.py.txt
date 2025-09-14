@@ -1,9 +1,0 @@
-# src/core/validation/validation.py
-class ValidationService:
-    async def validate_ein(self, ein: str) -> bool:
-        # Basic validation: 9 digits
-        return len(ein.replace('-', '')) == 9 and ein.replace('-', '').isdigit()
-
-    async def validate_duns(self, duns: str) -> bool:
-        # Basic validation: 9 digits
-        return len(duns.replace('-', '')) == 9 and duns.replace('-', '').isdigit()
