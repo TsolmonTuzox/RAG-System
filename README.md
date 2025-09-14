@@ -53,6 +53,11 @@ pip install -r requirement.txt
 
 3. **Configure environment variables**
 
+The backend requires the following environment variables:
+
+- `OPENAI_API_KEY` – your OpenAI API key used for language model access.
+- `DATABASE_URL` – PostgreSQL connection string for the application database.
+
 Create a `.env` file in the root directory:
 ```env
 # Required

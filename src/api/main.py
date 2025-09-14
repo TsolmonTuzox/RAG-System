@@ -14,7 +14,11 @@ from src.core.document_processor import DocumentProcessor
 
 # Load environment variables and setup
 load_dotenv()
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+if not OPENAI_API_KEY:
+    raise RuntimeError("OPENAI_API_KEY environment variable is not set")
+client = OpenAI(api_key=OPENAI_API_KEY)
 
 # Initialize services
 retrieval_service = RetrievalService()
@@ -145,9 +149,4 @@ async def get_validation_history(db: Session = Depends(get_db)):
 
 @app.post("/process-docs")
 async def process_documents():
-    try:
-        processor = DocumentProcessor()
-        texts = await processor.process_documents()
-        return {"message": f"Processed {len(texts)} document chunks successfully"}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+<
