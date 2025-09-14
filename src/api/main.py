@@ -8,6 +8,7 @@ import os
 from dotenv import load_dotenv
 from sqlalchemy.orm import Session
 from src.models.models import User, ValidationHistory, ChatHistory
+from src.models.chat import ChatMessage
 from src.utils.database import get_db
 from src.services.retrieval_service import RetrievalService
 from src.core.document_processor import DocumentProcessor
@@ -31,11 +32,6 @@ app.add_middleware(
 )
 
 # Models
-class ChatMessage(BaseModel):
-    content: str
-    role: str = "user"
-    timestamp: datetime = datetime.now()
-
 class ValidationRequest(BaseModel):
     ein: Optional[str] = None
     duns: Optional[str] = None
