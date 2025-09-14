@@ -11,6 +11,7 @@ from src.models.models import User, ValidationHistory, ChatHistory
 from src.utils.database import get_db
 from src.services.retrieval_service import RetrievalService
 from src.core.document_processor import DocumentProcessor
+from src.core.validation.validation import ValidationService
 
 # Load environment variables and setup
 load_dotenv()
@@ -18,6 +19,7 @@ client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 # Initialize services
 retrieval_service = RetrievalService()
+validation_service = ValidationService()
 
 app = FastAPI(title="Omnizon RAG")
 
@@ -59,9 +61,9 @@ async def validate_compliance(
     db: Session = Depends(get_db)
 ):
     try:
-        # Perform validation
-        ein_valid = len(request.ein.replace('-', '')) == 9 if request.ein else True
-        duns_valid = len(request.duns.replace('-', '')) == 9 if request.duns else True
+        # Perform validation using ValidationService
+        ein_valid = await validation_service.validate_ein(request.ein)
+        duns_valid = await validation_service.validate_duns(request.duns)
         
         # Store validation history
         validation = ValidationHistory(
