@@ -24,28 +24,28 @@ class DocumentProcessor:
             chunk_overlap=200
         )
 
-    async def process_documents(self, docs_dir: str = "docs") -> List[Dict]:
+    def process_documents(self, docs_dir: str = "docs") -> List[Dict]:
         """Process all markdown documents in the docs directory"""
         # Load documents
         loader = DirectoryLoader(docs_dir, glob="*.md")
         documents = loader.load()
-        
+
         # Split documents
         texts = self.text_splitter.split_documents(documents)
-        
+
         # Create embeddings and upload to Pinecone
         for i, text in enumerate(texts):
             embedding = self.embeddings.embed_query(text.page_content)
-            
+
             metadata = {
                 "text": text.page_content,
                 "source": text.metadata.get("source", ""),
                 "created_at": datetime.now().isoformat()
             }
-            
+
             # Upload to Pinecone
             self.index.upsert(
                 vectors=[(f"doc_{i}", embedding, metadata)]
             )
-        
+
         return texts
