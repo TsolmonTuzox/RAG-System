@@ -13,7 +13,7 @@ class RetrievalService:
         self.index = self.pc.Index(os.getenv("PINECONE_INDEX"))
         self.embeddings = HuggingFaceEmbeddings(model_name='all-MiniLM-L6-v2')
 
-    async def get_relevant_context(self, query: str, top_k: int = 3) -> str:
+    def get_relevant_context(self, query: str, top_k: int = 3) -> str:
         """Get relevant document chunks for a query"""
         # Create query embedding
         query_embedding = self.embeddings.embed_query(query)
