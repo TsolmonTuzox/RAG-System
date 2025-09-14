@@ -5,6 +5,7 @@ An open-source Retrieval-Augmented Generation (RAG) system for intelligent docum
 ## Features
 
 - **Document Processing**: Automatically process and index documents for intelligent retrieval
+- **Supported Formats**: Markdown (`.md`), PDF (`.pdf`), and Word (`.docx`) files
 - **Semantic Search**: Find relevant information using natural language queries
 - **Chat Interface**: Interactive Q&A based on your document corpus
 - **Validation Framework**: Built-in validation system for custom data types
@@ -89,7 +90,7 @@ The API will be available at `http://localhost:8000`
 
 ### Processing Documents
 
-Place your documents in the `docs/` directory and process them:
+Place your Markdown, PDF, or DOCX documents in the `docs/` directory and process them:
 
 ```bash
 curl -X POST http://localhost:8000/process-docs
