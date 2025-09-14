@@ -6,6 +6,8 @@ from langchain_community.embeddings import HuggingFaceEmbeddings
 from pinecone import Pinecone
 from datetime import datetime
 
+EMBEDDING_MODEL = "all-MiniLM-L6-v2"
+
 class DocumentProcessor:
     def __init__(self):
         # Initialize Pinecone
@@ -16,7 +18,7 @@ class DocumentProcessor:
         self.index = self.pc.Index(self.index_name)
         
         # Initialize embeddings
-        self.embeddings = HuggingFaceEmbeddings(model_name='all-MiniLM-L6-v2')
+        self.embeddings = HuggingFaceEmbeddings(model_name=EMBEDDING_MODEL)
         
         # Initialize text splitter
         self.text_splitter = RecursiveCharacterTextSplitter(

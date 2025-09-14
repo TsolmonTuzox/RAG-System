@@ -1,8 +1,9 @@
 from typing import List, Dict
 from pinecone import Pinecone
-from langchain_huggingface import HuggingFaceEmbeddings
-
+from langchain_community.embeddings import HuggingFaceEmbeddings
 import os
+
+EMBEDDING_MODEL = "all-MiniLM-L6-v2"
 
 class RetrievalService:
     def __init__(self):
@@ -11,7 +12,7 @@ class RetrievalService:
             api_key=os.getenv("PINECONE_API_KEY")
         )
         self.index = self.pc.Index(os.getenv("PINECONE_INDEX"))
-        self.embeddings = HuggingFaceEmbeddings(model_name='all-MiniLM-L6-v2')
+        self.embeddings = HuggingFaceEmbeddings(model_name=EMBEDDING_MODEL)
 
     async def get_relevant_context(self, query: str, top_k: int = 3) -> str:
         """Get relevant document chunks for a query"""
