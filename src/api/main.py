@@ -8,6 +8,7 @@ import os
 from dotenv import load_dotenv
 from sqlalchemy.orm import Session
 from src.models.models import User, ValidationHistory, ChatHistory
+from src.models.chat import ChatMessage
 from src.utils.database import get_db
 from src.services.retrieval_service import RetrievalService
 from src.core.document_processor import DocumentProcessor
@@ -29,24 +30,6 @@ app = FastAPI(title="Omnizon RAG")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
-
-# Models
-class ChatMessage(BaseModel):
-    content: str
-    role: str = "user"
-    timestamp: datetime = datetime.now()
-    user_id: int
-
-
-class ValidationRequest(BaseModel):
-    ein: Optional[str] = None
-    duns: Optional[str] = None
-    user_id: int
 
 
 # System prompt for OpenAI
