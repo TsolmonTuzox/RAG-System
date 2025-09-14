@@ -14,7 +14,11 @@ from src.core.document_processor import DocumentProcessor
 
 # Load environment variables and setup
 load_dotenv()
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+if not OPENAI_API_KEY:
+    raise RuntimeError("OPENAI_API_KEY environment variable is not set")
+client = OpenAI(api_key=OPENAI_API_KEY)
 
 # Initialize services
 retrieval_service = RetrievalService()
