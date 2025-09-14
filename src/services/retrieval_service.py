@@ -1,6 +1,7 @@
 from typing import List, Dict
 from pinecone import Pinecone
-from langchain_community.embeddings import HuggingFaceEmbeddings
+from langchain_huggingface import HuggingFaceEmbeddings
+
 import os
 
 class RetrievalService:
